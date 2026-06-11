@@ -25,6 +25,7 @@ Complete reference for ClawRouter configuration options.
 | `CLAWROUTER_SOLANA_RPC_URL` | `https://api.mainnet-beta.solana.com` | Solana RPC endpoint for USDC balance checks.                             |
 | `CLAWROUTER_DISABLED`       | `false`                               | Set to `true` to disable smart routing (pass requests through as-is).    |
 | `CLAWROUTER_WORKER`         | -                                     | Set to `1` to enable Worker Mode (earn USDC by running health checks).   |
+| `CLAWROUTER_DEBUG_HEADERS`  | (on)                                  | Set to `off`/`false`/`0` to suppress the `x-clawrouter-*` debug response headers. |
 | `BLOCKRUN_WEB_SEARCH`       | (auto-enabled)                        | Set to `off` to disable BlockRun's Exa web search provider registration. |
 
 ### BLOCKRUN_WALLET_KEY
@@ -90,6 +91,26 @@ When disabled:
 - ClawRouter skips `registerWebSearchProvider()` so blockrun-exa never gets wired up.
 - `injectModelsConfig` leaves your `tools.web.search.enabled = false` alone instead of flipping it back to `true` on every plugin load.
 - The legacy `tools.web.search.provider = "blockrun-exa"` migration still runs (that's correctness — it's an invalid value rejected by OpenClaw 2026.5.2+ validators, regardless of whether you want search enabled).
+
+### CLAWROUTER_DEBUG_HEADERS
+
+Non-streaming responses carry routing debug headers by default
+(`x-clawrouter-profile`, `x-clawrouter-tier`, `x-clawrouter-model`,
+`x-clawrouter-confidence`, `x-clawrouter-reasoning`). To turn them off
+globally:
+
+```bash
+export CLAWROUTER_DEBUG_HEADERS=off   # also accepts false / 0
+openclaw gateway restart
+```
+
+Per-request alternative: send `x-clawrouter-debug: false` on the request.
+
+> Since v0.12.208 the reasoning value is percent-encoded, so non-ASCII routing
+> signals (Cyrillic/CJK keyword matches) can no longer produce an invalid
+> header. On v0.12.207 and earlier, non-English prompts could crash response
+> delivery with `Invalid character in header content ["x-clawrouter-reasoning"]`
+> — upgrade rather than relying on this switch.
 
 ### CLAWROUTER_SOLANA_RPC_URL
 
