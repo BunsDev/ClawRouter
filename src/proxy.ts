@@ -126,12 +126,17 @@ const ROUTING_PROFILES = new Set([
 // privacy concerns, then re-enabled with `available: true` 2026-04-30 so
 // direct callers (ClawRouter using the full ID) still get HTTP 200; only
 // the public picker hides them. New entries appended in chain order.
+// gpt-oss stays at the head (heavy-user default, deliberately kept despite BlockRun
+// hiding it). Mid/back strengthened 2026-06-14 with BlockRun's newly-featured free
+// flagships (mistral-large-3-675b, qwen3.5-122b). deepseek-v4-flash dropped from
+// auto-pick (BlockRun hid it) but stays catalog-routable for direct calls.
 const FREE_MODELS = new Set([
   "free/gpt-oss-120b",
   "free/gpt-oss-20b",
-  "free/deepseek-v4-flash", // 1M ctx DeepSeek V4 Flash (V4 Pro NVIDIA hung 2026-04-30)
-  "free/qwen3-coder-480b",
+  "free/mistral-large-3-675b", // 675B general flagship (re-featured 2026-06-14)
+  "free/qwen3.5-122b-a10b", // newest-gen Qwen, strong general
   "free/llama-4-maverick",
+  "free/qwen3-coder-480b", // coding backstop
   "free/nemotron-3-nano-omni-30b-a3b-reasoning", // first vision-capable free
 ]);
 /** Pick the best available free model that isn't excluded. */

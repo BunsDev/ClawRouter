@@ -27,9 +27,13 @@ export const MODEL_ALIASES: Record<string, string> = {
   "sonnet-4.5": "anthropic/claude-sonnet-4.5",
   "sonnet-4-5": "anthropic/claude-sonnet-4.5",
   "anthropic/claude-sonnet-4-5": "anthropic/claude-sonnet-4.5",
-  fable: "anthropic/claude-fable-5",
-  "fable-5": "anthropic/claude-fable-5",
-  "fable-5.0": "anthropic/claude-fable-5",
+  // claude-fable-5 DELISTED by Anthropic 2026-06-13 (offer withdrawn upstream —
+  // no longer served on direct Anthropic or Bedrock). BlockRun removed the
+  // catalog entry and redirects fable → opus-4.8 (route.ts MODEL_REDIRECTS).
+  // Mirror that here so pinned callers silently land on opus-4.8.
+  fable: "anthropic/claude-opus-4.8",
+  "fable-5": "anthropic/claude-opus-4.8",
+  "fable-5.0": "anthropic/claude-opus-4.8",
   opus: "anthropic/claude-opus-4.8",
   "opus-4": "anthropic/claude-opus-4.8",
   "opus-4.8": "anthropic/claude-opus-4.8",
@@ -41,9 +45,10 @@ export const MODEL_ALIASES: Record<string, string> = {
   haiku: "anthropic/claude-haiku-4.5",
   // Claude - provider/shortname patterns (common in agent frameworks)
   "anthropic/sonnet": "anthropic/claude-sonnet-4.6",
-  "anthropic/fable": "anthropic/claude-fable-5",
-  "anthropic/claude-fable-5": "anthropic/claude-fable-5",
-  "anthropic/claude-fable-5.0": "anthropic/claude-fable-5",
+  // fable-5 delisted 2026-06-13 → opus-4.8 (see note above)
+  "anthropic/fable": "anthropic/claude-opus-4.8",
+  "anthropic/claude-fable-5": "anthropic/claude-opus-4.8",
+  "anthropic/claude-fable-5.0": "anthropic/claude-opus-4.8",
   "anthropic/opus": "anthropic/claude-opus-4.8",
   "anthropic/haiku": "anthropic/claude-haiku-4.5",
   "anthropic/claude": "anthropic/claude-sonnet-4.6",
@@ -85,13 +90,15 @@ export const MODEL_ALIASES: Record<string, string> = {
   "deepseek-chat": "deepseek/deepseek-chat",
   reasoner: "deepseek/deepseek-reasoner",
 
-  // Kimi / Moonshot — K2.6 is the featured flagship on BlockRun (K2.5 hidden in
-  // BlockRun's UI 2026-04-28). Bare aliases now resolve to K2.6. Users who
-  // explicitly pinned "kimi-k2.5" continue to get K2.5 (cost-stability opt-in:
-  // $0.60/$3.00 vs K2.6's $0.95/$4.00). NVIDIA-hosted K2.5 was retired 2026-04-21.
-  kimi: "moonshot/kimi-k2.6",
-  moonshot: "moonshot/kimi-k2.6",
-  "kimi-k2": "moonshot/kimi-k2.6",
+  // Kimi / Moonshot — K2.7 is the featured flagship on BlockRun (added 2026-06-13,
+  // commit cd3d79b; K2.6 marked hidden/superseded, K2.5 hidden). Bare aliases now
+  // resolve to K2.7 (same $0.95/$4.00 price as K2.6 — AT-COST, zero margin). Explicit
+  // pins for "kimi-k2.6" / "kimi-k2.5" still resolve to those exact models (K2.5 is a
+  // cost-stability opt-in at $0.60/$3.00). NVIDIA-hosted K2.5 was retired 2026-04-21.
+  kimi: "moonshot/kimi-k2.7",
+  moonshot: "moonshot/kimi-k2.7",
+  "kimi-k2": "moonshot/kimi-k2.7",
+  "kimi-k2.7": "moonshot/kimi-k2.7",
   "kimi-k2.6": "moonshot/kimi-k2.6",
   "kimi-k2.5": "moonshot/kimi-k2.5",
   "nvidia/kimi-k2.5": "moonshot/kimi-k2.5",
@@ -148,13 +155,20 @@ export const MODEL_ALIASES: Record<string, string> = {
   "nvidia/nemotron-ultra-253b": "free/llama-4-maverick",
   "nvidia/nemotron-3-super-120b": "free/llama-4-maverick",
   "nvidia/nemotron-super-49b": "free/llama-4-maverick",
-  "nvidia/mistral-large-3-675b": "free/llama-4-maverick",
+  // mistral-large-3-675b un-retired 2026-06-14: BlockRun re-featured it (available,
+  // NVIDIA upstream recovered) so it's a real free catalog entry again.
+  "nvidia/mistral-large-3-675b": "free/mistral-large-3-675b",
+  "nvidia/qwen3.5-122b-a10b": "free/qwen3.5-122b-a10b",
   "nvidia/devstral-2-123b": "free/qwen3-coder-480b",
   "free/nemotron-ultra-253b": "free/llama-4-maverick",
   "free/nemotron-3-super-120b": "free/llama-4-maverick",
   "free/nemotron-super-49b": "free/llama-4-maverick",
-  "free/mistral-large-3-675b": "free/llama-4-maverick",
   "free/devstral-2-123b": "free/qwen3-coder-480b",
+  // New blockrun-featured free models (2026-06-14 catalog sweep)
+  "mistral-large": "free/mistral-large-3-675b",
+  "mistral-large-3-675b": "free/mistral-large-3-675b",
+  "qwen3.5-122b": "free/qwen3.5-122b-a10b",
+  "qwen3-122b": "free/qwen3.5-122b-a10b",
   // Free model shorthand aliases
   "deepseek-free": "free/deepseek-v4-flash", // V4 Pro NVIDIA hung 2026-04-30 → flash
   "deepseek-v4-pro": "free/deepseek-v4-flash", // free shorthand → flash (pro hung)
@@ -673,19 +687,9 @@ export const BLOCKRUN_MODELS: BlockRunModel[] = [
     agentic: true,
     toolCalling: true,
   },
-  {
-    id: "anthropic/claude-fable-5",
-    name: "Claude Fable 5",
-    version: "5.0",
-    inputPrice: 10.0,
-    outputPrice: 50.0,
-    contextWindow: 1000000,
-    maxOutput: 128000,
-    reasoning: true,
-    vision: true,
-    agentic: true,
-    toolCalling: true,
-  },
+  // claude-fable-5 DELISTED by Anthropic 2026-06-13 (offer withdrawn upstream;
+  // BlockRun removed its catalog entry and redirects → opus-4.8). Catalog entry
+  // removed here; fable aliases now resolve to opus-4.8. Re-add if access returns.
   {
     id: "anthropic/claude-opus-4.7",
     name: "Claude Opus 4.7",
@@ -846,7 +850,25 @@ export const BLOCKRUN_MODELS: BlockRunModel[] = [
     toolCalling: true,
   },
 
-  // Kimi K2.6 — Moonshot's current flagship (256K context, vision + reasoning). Only served via Moonshot direct API.
+  // Kimi K2.7 — Moonshot's flagship (added 2026-06-13). 256K context, multi-modal
+  // (image + VIDEO input), returns reasoning_content. Served via BlockRun's OpenRouter
+  // credit pool (slug moonshotai/kimi-k2.7-code) failing over to direct Moonshot.
+  // AT-COST pricing ($0.95/$4.00 = OpenRouter COGS, zero margin) — same as K2.6.
+  {
+    id: "moonshot/kimi-k2.7",
+    name: "Kimi K2.7",
+    version: "k2.7",
+    inputPrice: 0.95,
+    outputPrice: 4.0,
+    contextWindow: 262144,
+    maxOutput: 65536,
+    reasoning: true,
+    vision: true,
+    agentic: true,
+    toolCalling: true,
+  },
+
+  // Kimi K2.6 — superseded by K2.7 (2026-06-13), hidden on BlockRun but still routable.
   {
     id: "moonshot/kimi-k2.6",
     name: "Kimi K2.6",
@@ -1172,6 +1194,32 @@ export const BLOCKRUN_MODELS: BlockRunModel[] = [
     maxOutput: 16384,
     reasoning: true,
     vision: true,
+  },
+  // 2026-06-14: BlockRun re-featured these two as free flagships (catalog sweep).
+  // Added to the auto-pick set behind gpt-oss to strengthen the mid/back of the
+  // free cascade with strong general models.
+  {
+    // Mistral Large 3: 675B dense flagship, strong general reasoning. Un-retired
+    // 2026-06-14 (NVIDIA upstream recovered; BlockRun marks it available + featured).
+    id: "free/mistral-large-3-675b",
+    name: "[Free] Mistral Large 3 675B",
+    version: "3-675b",
+    inputPrice: 0,
+    outputPrice: 0,
+    contextWindow: 131072,
+    maxOutput: 16384,
+    reasoning: true,
+  },
+  {
+    // Qwen3.5 122B (A10B active MoE): newest-gen Qwen, strong general capability.
+    id: "free/qwen3.5-122b-a10b",
+    name: "[Free] Qwen3.5 122B",
+    version: "3.5-122b",
+    inputPrice: 0,
+    outputPrice: 0,
+    contextWindow: 131072,
+    maxOutput: 16384,
+    reasoning: true,
   },
 
   // Z.AI GLM-5 Models

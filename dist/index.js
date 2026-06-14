@@ -58365,7 +58365,7 @@ var top_models_default = [
   "deepseek/deepseek-v4-pro",
   "deepseek/deepseek-chat",
   "deepseek/deepseek-reasoner",
-  "moonshot/kimi-k2.6",
+  "moonshot/kimi-k2.7",
   "xai/grok-4.3",
   "xai/grok-build-0.1",
   "xai/grok-3",
@@ -58375,9 +58375,10 @@ var top_models_default = [
   "minimax/minimax-m2.7",
   "free/gpt-oss-120b",
   "free/gpt-oss-20b",
-  "free/deepseek-v4-flash",
-  "free/qwen3-coder-480b",
+  "free/mistral-large-3-675b",
+  "free/qwen3.5-122b-a10b",
   "free/llama-4-maverick",
+  "free/qwen3-coder-480b",
   "free/nemotron-3-nano-omni-30b-a3b-reasoning",
   "zai/glm-5.1",
   "zai/glm-5",
@@ -58407,6 +58408,13 @@ var MODEL_ALIASES = {
   "sonnet-4.5": "anthropic/claude-sonnet-4.5",
   "sonnet-4-5": "anthropic/claude-sonnet-4.5",
   "anthropic/claude-sonnet-4-5": "anthropic/claude-sonnet-4.5",
+  // claude-fable-5 DELISTED by Anthropic 2026-06-13 (offer withdrawn upstream —
+  // no longer served on direct Anthropic or Bedrock). BlockRun removed the
+  // catalog entry and redirects fable → opus-4.8 (route.ts MODEL_REDIRECTS).
+  // Mirror that here so pinned callers silently land on opus-4.8.
+  fable: "anthropic/claude-opus-4.8",
+  "fable-5": "anthropic/claude-opus-4.8",
+  "fable-5.0": "anthropic/claude-opus-4.8",
   opus: "anthropic/claude-opus-4.8",
   "opus-4": "anthropic/claude-opus-4.8",
   "opus-4.8": "anthropic/claude-opus-4.8",
@@ -58418,6 +58426,10 @@ var MODEL_ALIASES = {
   haiku: "anthropic/claude-haiku-4.5",
   // Claude - provider/shortname patterns (common in agent frameworks)
   "anthropic/sonnet": "anthropic/claude-sonnet-4.6",
+  // fable-5 delisted 2026-06-13 → opus-4.8 (see note above)
+  "anthropic/fable": "anthropic/claude-opus-4.8",
+  "anthropic/claude-fable-5": "anthropic/claude-opus-4.8",
+  "anthropic/claude-fable-5.0": "anthropic/claude-opus-4.8",
   "anthropic/opus": "anthropic/claude-opus-4.8",
   "anthropic/haiku": "anthropic/claude-haiku-4.5",
   "anthropic/claude": "anthropic/claude-sonnet-4.6",
@@ -58456,13 +58468,15 @@ var MODEL_ALIASES = {
   deepseek: "deepseek/deepseek-chat",
   "deepseek-chat": "deepseek/deepseek-chat",
   reasoner: "deepseek/deepseek-reasoner",
-  // Kimi / Moonshot — K2.6 is the featured flagship on BlockRun (K2.5 hidden in
-  // BlockRun's UI 2026-04-28). Bare aliases now resolve to K2.6. Users who
-  // explicitly pinned "kimi-k2.5" continue to get K2.5 (cost-stability opt-in:
-  // $0.60/$3.00 vs K2.6's $0.95/$4.00). NVIDIA-hosted K2.5 was retired 2026-04-21.
-  kimi: "moonshot/kimi-k2.6",
-  moonshot: "moonshot/kimi-k2.6",
-  "kimi-k2": "moonshot/kimi-k2.6",
+  // Kimi / Moonshot — K2.7 is the featured flagship on BlockRun (added 2026-06-13,
+  // commit cd3d79b; K2.6 marked hidden/superseded, K2.5 hidden). Bare aliases now
+  // resolve to K2.7 (same $0.95/$4.00 price as K2.6 — AT-COST, zero margin). Explicit
+  // pins for "kimi-k2.6" / "kimi-k2.5" still resolve to those exact models (K2.5 is a
+  // cost-stability opt-in at $0.60/$3.00). NVIDIA-hosted K2.5 was retired 2026-04-21.
+  kimi: "moonshot/kimi-k2.7",
+  moonshot: "moonshot/kimi-k2.7",
+  "kimi-k2": "moonshot/kimi-k2.7",
+  "kimi-k2.7": "moonshot/kimi-k2.7",
   "kimi-k2.6": "moonshot/kimi-k2.6",
   "kimi-k2.5": "moonshot/kimi-k2.5",
   "nvidia/kimi-k2.5": "moonshot/kimi-k2.5",
@@ -58525,13 +58539,20 @@ var MODEL_ALIASES = {
   "nvidia/nemotron-ultra-253b": "free/llama-4-maverick",
   "nvidia/nemotron-3-super-120b": "free/llama-4-maverick",
   "nvidia/nemotron-super-49b": "free/llama-4-maverick",
-  "nvidia/mistral-large-3-675b": "free/llama-4-maverick",
+  // mistral-large-3-675b un-retired 2026-06-14: BlockRun re-featured it (available,
+  // NVIDIA upstream recovered) so it's a real free catalog entry again.
+  "nvidia/mistral-large-3-675b": "free/mistral-large-3-675b",
+  "nvidia/qwen3.5-122b-a10b": "free/qwen3.5-122b-a10b",
   "nvidia/devstral-2-123b": "free/qwen3-coder-480b",
   "free/nemotron-ultra-253b": "free/llama-4-maverick",
   "free/nemotron-3-super-120b": "free/llama-4-maverick",
   "free/nemotron-super-49b": "free/llama-4-maverick",
-  "free/mistral-large-3-675b": "free/llama-4-maverick",
   "free/devstral-2-123b": "free/qwen3-coder-480b",
+  // New blockrun-featured free models (2026-06-14 catalog sweep)
+  "mistral-large": "free/mistral-large-3-675b",
+  "mistral-large-3-675b": "free/mistral-large-3-675b",
+  "qwen3.5-122b": "free/qwen3.5-122b-a10b",
+  "qwen3-122b": "free/qwen3.5-122b-a10b",
   // Free model shorthand aliases
   "deepseek-free": "free/deepseek-v4-flash",
   // V4 Pro NVIDIA hung 2026-04-30 → flash
@@ -58973,6 +58994,9 @@ var BLOCKRUN_MODELS = [
     agentic: true,
     toolCalling: true
   },
+  // claude-fable-5 DELISTED by Anthropic 2026-06-13 (offer withdrawn upstream;
+  // BlockRun removed its catalog entry and redirects → opus-4.8). Catalog entry
+  // removed here; fable aliases now resolve to opus-4.8. Re-add if access returns.
   {
     id: "anthropic/claude-opus-4.7",
     name: "Claude Opus 4.7",
@@ -59130,7 +59154,24 @@ var BLOCKRUN_MODELS = [
     agentic: true,
     toolCalling: true
   },
-  // Kimi K2.6 — Moonshot's current flagship (256K context, vision + reasoning). Only served via Moonshot direct API.
+  // Kimi K2.7 — Moonshot's flagship (added 2026-06-13). 256K context, multi-modal
+  // (image + VIDEO input), returns reasoning_content. Served via BlockRun's OpenRouter
+  // credit pool (slug moonshotai/kimi-k2.7-code) failing over to direct Moonshot.
+  // AT-COST pricing ($0.95/$4.00 = OpenRouter COGS, zero margin) — same as K2.6.
+  {
+    id: "moonshot/kimi-k2.7",
+    name: "Kimi K2.7",
+    version: "k2.7",
+    inputPrice: 0.95,
+    outputPrice: 4,
+    contextWindow: 262144,
+    maxOutput: 65536,
+    reasoning: true,
+    vision: true,
+    agentic: true,
+    toolCalling: true
+  },
+  // Kimi K2.6 — superseded by K2.7 (2026-06-13), hidden on BlockRun but still routable.
   {
     id: "moonshot/kimi-k2.6",
     name: "Kimi K2.6",
@@ -59449,6 +59490,32 @@ var BLOCKRUN_MODELS = [
     maxOutput: 16384,
     reasoning: true,
     vision: true
+  },
+  // 2026-06-14: BlockRun re-featured these two as free flagships (catalog sweep).
+  // Added to the auto-pick set behind gpt-oss to strengthen the mid/back of the
+  // free cascade with strong general models.
+  {
+    // Mistral Large 3: 675B dense flagship, strong general reasoning. Un-retired
+    // 2026-06-14 (NVIDIA upstream recovered; BlockRun marks it available + featured).
+    id: "free/mistral-large-3-675b",
+    name: "[Free] Mistral Large 3 675B",
+    version: "3-675b",
+    inputPrice: 0,
+    outputPrice: 0,
+    contextWindow: 131072,
+    maxOutput: 16384,
+    reasoning: true
+  },
+  {
+    // Qwen3.5 122B (A10B active MoE): newest-gen Qwen, strong general capability.
+    id: "free/qwen3.5-122b-a10b",
+    name: "[Free] Qwen3.5 122B",
+    version: "3.5-122b",
+    inputPrice: 0,
+    outputPrice: 0,
+    contextWindow: 131072,
+    maxOutput: 16384,
+    reasoning: true
   },
   // Z.AI GLM-5 Models
   {
@@ -75498,11 +75565,13 @@ var DEFAULT_ROUTING_CONFIG = {
       ]
     },
     MEDIUM: {
-      primary: "moonshot/kimi-k2.6",
-      // $0.95/$4.00, 256K ctx, vision + reasoning — Moonshot flagship; promoted from K2.5 (2026-05-02) after BlockRun hid K2.5 from its UI on 2026-04-28
+      primary: "moonshot/kimi-k2.7",
+      // $0.95/$4.00, 256K ctx, multi-modal + reasoning — Moonshot flagship; promoted from K2.6 (2026-06-14) after BlockRun added K2.7 + hid K2.6. Same price as K2.6.
       fallback: [
+        "moonshot/kimi-k2.6",
+        // identical-cost in-family hot swap (K2.6 still routable)
         "moonshot/kimi-k2.5",
-        // $0.60/$3.00 — graceful-degradation backstop while K2.6 stabilizes
+        // $0.60/$3.00 — graceful-degradation backstop
         "google/gemini-3-flash-preview",
         // 1,398ms, IQ 46 — nearly same IQ, faster + cheaper
         "deepseek/deepseek-chat",
@@ -75566,6 +75635,10 @@ var DEFAULT_ROUTING_CONFIG = {
       fallback: [
         "free/gpt-oss-20b",
         // FREE — smaller, faster
+        "free/mistral-large-3-675b",
+        // FREE — 675B general flagship (re-featured 2026-06-14)
+        "free/qwen3.5-122b-a10b",
+        // FREE — newest-gen Qwen, strong general
         "free/deepseek-v4-flash",
         // FREE — 1M context, ~5x faster than v4-pro
         "google/gemini-3.1-flash-lite",
@@ -75616,11 +75689,13 @@ var DEFAULT_ROUTING_CONFIG = {
   // codex=complex coding, kimi=simple coding, sonnet=reasoning/instructions, opus=architecture/PM/audits
   premiumTiers: {
     SIMPLE: {
-      primary: "moonshot/kimi-k2.6",
-      // $0.95/$4.00 - Moonshot flagship (256K ctx, vision + reasoning)
+      primary: "moonshot/kimi-k2.7",
+      // $0.95/$4.00 - Moonshot flagship (256K ctx, multi-modal + reasoning); promoted from K2.6 (2026-06-14), same price
       fallback: [
+        "moonshot/kimi-k2.6",
+        // identical-cost in-family hot swap (K2.6 still routable)
         "moonshot/kimi-k2.5",
-        // $0.60/$3.00 - proven reliable NVIDIA fallback when Moonshot direct API falters
+        // $0.60/$3.00 - proven reliable backstop when Moonshot direct API falters
         "google/gemini-2.5-flash",
         // 60% retention, fast growth
         "anthropic/claude-haiku-4.5",
@@ -75632,8 +75707,9 @@ var DEFAULT_ROUTING_CONFIG = {
       primary: "openai/gpt-5.3-codex",
       // $1.75/$14 - 400K context, 128K output, replaces 5.2
       fallback: [
-        "moonshot/kimi-k2.6",
+        "moonshot/kimi-k2.7",
         // Moonshot flagship
+        "moonshot/kimi-k2.6",
         "moonshot/kimi-k2.5",
         "google/gemini-2.5-flash",
         // 60% retention, good coding capability
@@ -75643,22 +75719,25 @@ var DEFAULT_ROUTING_CONFIG = {
       ]
     },
     COMPLEX: {
+      // fable-5 was promoted here 2026-06-11, then DELISTED by Anthropic 2026-06-13
+      // (offer withdrawn upstream). Reverted to opus-4.8 — BlockRun redirects fable → opus-4.8.
       primary: "anthropic/claude-opus-4.8",
-      // Best quality for complex tasks — newest flagship, same $5/$25 as 4.7
+      // flagship Opus — 1M ctx, 128K out, adaptive thinking ($5/$25)
       // Fallback chain de-Gemini'd 2026-04-22: when Anthropic 503s, Gemini is
       // also prone to "high demand" 503s (correlated failure — everyone falls
       // back to Google at the same time). Prefer xAI Grok → Moonshot → OpenAI
       // flagship → DeepSeek → NVIDIA free instead.
       fallback: [
         "anthropic/claude-opus-4.7",
-        // in-family hot swap first (identical cost)
+        // in-family hot swap (identical cost to 4.8)
         "anthropic/claude-opus-4.6",
         // in-family hot swap
         "anthropic/claude-sonnet-4.6",
         "xai/grok-4-0709",
         // 503-resistant flagship
-        "moonshot/kimi-k2.6",
+        "moonshot/kimi-k2.7",
         // Moonshot flagship, independent infra
+        "moonshot/kimi-k2.6",
         "moonshot/kimi-k2.5",
         "openai/gpt-5.5",
         // Newest OpenAI flagship — 1M+ ctx, native agent + computer use
@@ -75705,11 +75784,13 @@ var DEFAULT_ROUTING_CONFIG = {
       ]
     },
     MEDIUM: {
-      primary: "moonshot/kimi-k2.6",
-      // $0.95/$4.00 — Moonshot flagship, strong tool use; promoted from K2.5 (2026-05-02) after BlockRun hid K2.5 from its UI on 2026-04-28
+      primary: "moonshot/kimi-k2.7",
+      // $0.95/$4.00 — Moonshot flagship, strong tool use; promoted from K2.6 (2026-06-14) after BlockRun added K2.7 + hid K2.6. Same price.
       fallback: [
+        "moonshot/kimi-k2.6",
+        // identical-cost in-family hot swap (K2.6 still routable)
         "moonshot/kimi-k2.5",
-        // $0.60/$3.00 — graceful-degradation backstop while K2.6 stabilizes
+        // $0.60/$3.00 — graceful-degradation backstop
         "xai/grok-4-1-fast-non-reasoning",
         // 1,244ms, fast fallback
         "openai/gpt-4o-mini",
@@ -75735,8 +75816,10 @@ var DEFAULT_ROUTING_CONFIG = {
         // 2,139ms
         "xai/grok-4-0709",
         // 1,348ms — strong tool use, independent infra
+        "moonshot/kimi-k2.7",
+        // Moonshot flagship — strong tool use, independent infra
         "moonshot/kimi-k2.5",
-        // strong tool use, independent infra
+        // cost-stability backstop
         "openai/gpt-5.5",
         // Newest flagship — native agent + computer use (exactly the agentic-tier use case)
         "openai/gpt-5.4",
@@ -78664,10 +78747,13 @@ var ROUTING_PROFILES = /* @__PURE__ */ new Set([
 var FREE_MODELS = /* @__PURE__ */ new Set([
   "free/gpt-oss-120b",
   "free/gpt-oss-20b",
-  "free/deepseek-v4-flash",
-  // 1M ctx DeepSeek V4 Flash (V4 Pro NVIDIA hung 2026-04-30)
-  "free/qwen3-coder-480b",
+  "free/mistral-large-3-675b",
+  // 675B general flagship (re-featured 2026-06-14)
+  "free/qwen3.5-122b-a10b",
+  // newest-gen Qwen, strong general
   "free/llama-4-maverick",
+  "free/qwen3-coder-480b",
+  // coding backstop
   "free/nemotron-3-nano-omni-30b-a3b-reasoning"
   // first vision-capable free
 ]);

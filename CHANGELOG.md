@@ -4,6 +4,25 @@ All notable changes to ClawRouter.
 
 ---
 
+## v0.12.209 — June 14, 2026
+
+Registry realignment with the 2026-06-13 → 06-14 BlockRun catalog sweep: Fable 5 delisting reverted, Kimi K2.7 promoted, free tier strengthened. 619 tests passing.
+
+### Fable 5 delisting (revert of the 06-11 promotion)
+
+- **`anthropic/claude-fable-5` DELISTED by Anthropic 2026-06-13** (offer withdrawn upstream — no longer served on direct Anthropic or Bedrock). BlockRun removed the catalog entry and redirects fable → `opus-4.8` (`route.ts` MODEL_REDIRECTS). v0.12.208's same-day promotion of Fable 5 to **premium COMPLEX primary** was therefore pointing default premium-tier complex traffic at a now-dead model. Reverted: catalog entry removed, all `fable*` aliases (`fable`, `fable-5`, `fable-5.0`, `anthropic/fable`, `anthropic/claude-fable-5[.0]`) now resolve to `anthropic/claude-opus-4.8`, and premium COMPLEX primary restored to `opus-4.8` (its first fallback before the promotion). Pinned callers silently land on opus-4.8, matching the gateway.
+
+### Kimi K2.7 (BlockRun commit `cd3d79b`, 2026-06-13)
+
+- **`moonshot/kimi-k2.7` added** — Moonshot's new flagship: 256K context, multi-modal (image + **video** input), returns `reasoning_content`. AT-COST pricing **$0.95/$4.00** — identical to K2.6 (BlockRun serves it via the OpenRouter credit pool failing over to direct Moonshot; zero margin by design). Bare aliases (`kimi`, `moonshot`, `kimi-k2`) retargeted K2.6 → K2.7; explicit `kimi-k2.6` / `kimi-k2.5` pins preserved. K2.6 marked superseded (hidden on BlockRun) but stays fully routable as an **identical-cost** first fallback.
+- **Router primaries promoted K2.6 → K2.7** (same price, so cost-neutral): `auto.MEDIUM`, `agentic.MEDIUM`, `premium.SIMPLE`. Each keeps K2.6 as its first fallback (in-family hot swap). K2.7 also prepended ahead of K2.6 in the premium MEDIUM/COMPLEX and agentic COMPLEX fallback chains. Picker (`top-models.json`) swapped K2.6 → K2.7.
+
+### Free tier strengthened (BlockRun 06-14 catalog sweep)
+
+- **Auto-pick set 6 → 7**, gpt-oss kept at the head (heavy-user default, deliberately retained despite BlockRun hiding it). Mid/back strengthened with two BlockRun-re-featured free flagships: **`free/mistral-large-3-675b`** (675B general, un-retired — NVIDIA upstream recovered) and **`free/qwen3.5-122b-a10b`** (newest-gen Qwen). `free/deepseek-v4-flash` dropped from the auto-pick set + picker (BlockRun hid it) but stays catalog-routable for direct `$0` calls. New free shorthands: `mistral-large`, `qwen3.5-122b`. eco SIMPLE fallback chain extended with both new models. README/SKILL free-count synced (6 → 7).
+
+---
+
 ## v0.12.208 — June 11, 2026
 
 Stop non-English prompts from crashing paid responses via the `x-clawrouter-reasoning` header.

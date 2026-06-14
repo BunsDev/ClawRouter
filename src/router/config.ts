@@ -1055,9 +1055,10 @@ export const DEFAULT_ROUTING_CONFIG: RoutingConfig = {
       ],
     },
     MEDIUM: {
-      primary: "moonshot/kimi-k2.6", // $0.95/$4.00, 256K ctx, vision + reasoning — Moonshot flagship; promoted from K2.5 (2026-05-02) after BlockRun hid K2.5 from its UI on 2026-04-28
+      primary: "moonshot/kimi-k2.7", // $0.95/$4.00, 256K ctx, multi-modal + reasoning — Moonshot flagship; promoted from K2.6 (2026-06-14) after BlockRun added K2.7 + hid K2.6. Same price as K2.6.
       fallback: [
-        "moonshot/kimi-k2.5", // $0.60/$3.00 — graceful-degradation backstop while K2.6 stabilizes
+        "moonshot/kimi-k2.6", // identical-cost in-family hot swap (K2.6 still routable)
+        "moonshot/kimi-k2.5", // $0.60/$3.00 — graceful-degradation backstop
         "google/gemini-3-flash-preview", // 1,398ms, IQ 46 — nearly same IQ, faster + cheaper
         "deepseek/deepseek-chat", // 1,431ms, IQ 32, 41% retention
         "google/gemini-2.5-flash", // 1,238ms, 60% retention
@@ -1098,6 +1099,8 @@ export const DEFAULT_ROUTING_CONFIG: RoutingConfig = {
       primary: "free/gpt-oss-120b", // FREE! $0.00/$0.00 — heavy user default
       fallback: [
         "free/gpt-oss-20b", // FREE — smaller, faster
+        "free/mistral-large-3-675b", // FREE — 675B general flagship (re-featured 2026-06-14)
+        "free/qwen3.5-122b-a10b", // FREE — newest-gen Qwen, strong general
         "free/deepseek-v4-flash", // FREE — 1M context, ~5x faster than v4-pro
         "google/gemini-3.1-flash-lite", // $0.25/$1.50 — newest flash-lite
         "openai/gpt-5.4-nano", // $0.20/$1.25 — fast nano
@@ -1137,9 +1140,10 @@ export const DEFAULT_ROUTING_CONFIG: RoutingConfig = {
   // codex=complex coding, kimi=simple coding, sonnet=reasoning/instructions, opus=architecture/PM/audits
   premiumTiers: {
     SIMPLE: {
-      primary: "moonshot/kimi-k2.6", // $0.95/$4.00 - Moonshot flagship (256K ctx, vision + reasoning)
+      primary: "moonshot/kimi-k2.7", // $0.95/$4.00 - Moonshot flagship (256K ctx, multi-modal + reasoning); promoted from K2.6 (2026-06-14), same price
       fallback: [
-        "moonshot/kimi-k2.5", // $0.60/$3.00 - proven reliable NVIDIA fallback when Moonshot direct API falters
+        "moonshot/kimi-k2.6", // identical-cost in-family hot swap (K2.6 still routable)
+        "moonshot/kimi-k2.5", // $0.60/$3.00 - proven reliable backstop when Moonshot direct API falters
         "google/gemini-2.5-flash", // 60% retention, fast growth
         "anthropic/claude-haiku-4.5",
         "google/gemini-2.5-flash-lite",
@@ -1149,7 +1153,8 @@ export const DEFAULT_ROUTING_CONFIG: RoutingConfig = {
     MEDIUM: {
       primary: "openai/gpt-5.3-codex", // $1.75/$14 - 400K context, 128K output, replaces 5.2
       fallback: [
-        "moonshot/kimi-k2.6", // Moonshot flagship
+        "moonshot/kimi-k2.7", // Moonshot flagship
+        "moonshot/kimi-k2.6",
         "moonshot/kimi-k2.5",
         "google/gemini-2.5-flash", // 60% retention, good coding capability
         "google/gemini-2.5-pro",
@@ -1158,18 +1163,20 @@ export const DEFAULT_ROUTING_CONFIG: RoutingConfig = {
       ],
     },
     COMPLEX: {
-      primary: "anthropic/claude-fable-5", // Best quality for complex tasks — Mythos-class flagship above Opus ($10/$50, 1M ctx, always-on thinking)
+      // fable-5 was promoted here 2026-06-11, then DELISTED by Anthropic 2026-06-13
+      // (offer withdrawn upstream). Reverted to opus-4.8 — BlockRun redirects fable → opus-4.8.
+      primary: "anthropic/claude-opus-4.8", // flagship Opus — 1M ctx, 128K out, adaptive thinking ($5/$25)
       // Fallback chain de-Gemini'd 2026-04-22: when Anthropic 503s, Gemini is
       // also prone to "high demand" 503s (correlated failure — everyone falls
       // back to Google at the same time). Prefer xAI Grok → Moonshot → OpenAI
       // flagship → DeepSeek → NVIDIA free instead.
       fallback: [
-        "anthropic/claude-opus-4.8", // in-family hot swap first (half the price, 1M ctx + adaptive thinking)
         "anthropic/claude-opus-4.7", // in-family hot swap (identical cost to 4.8)
         "anthropic/claude-opus-4.6", // in-family hot swap
         "anthropic/claude-sonnet-4.6",
         "xai/grok-4-0709", // 503-resistant flagship
-        "moonshot/kimi-k2.6", // Moonshot flagship, independent infra
+        "moonshot/kimi-k2.7", // Moonshot flagship, independent infra
+        "moonshot/kimi-k2.6",
         "moonshot/kimi-k2.5",
         "openai/gpt-5.5", // Newest OpenAI flagship — 1M+ ctx, native agent + computer use
         "openai/gpt-5.4", // Previous flagship (slow but stable, benchmarked at 6,213ms)
@@ -1202,9 +1209,10 @@ export const DEFAULT_ROUTING_CONFIG: RoutingConfig = {
       ],
     },
     MEDIUM: {
-      primary: "moonshot/kimi-k2.6", // $0.95/$4.00 — Moonshot flagship, strong tool use; promoted from K2.5 (2026-05-02) after BlockRun hid K2.5 from its UI on 2026-04-28
+      primary: "moonshot/kimi-k2.7", // $0.95/$4.00 — Moonshot flagship, strong tool use; promoted from K2.6 (2026-06-14) after BlockRun added K2.7 + hid K2.6. Same price.
       fallback: [
-        "moonshot/kimi-k2.5", // $0.60/$3.00 — graceful-degradation backstop while K2.6 stabilizes
+        "moonshot/kimi-k2.6", // identical-cost in-family hot swap (K2.6 still routable)
+        "moonshot/kimi-k2.5", // $0.60/$3.00 — graceful-degradation backstop
         "xai/grok-4-1-fast-non-reasoning", // 1,244ms, fast fallback
         "openai/gpt-4o-mini", // 2,764ms, reliable tool calling
         "anthropic/claude-haiku-4.5", // 2,305ms
@@ -1221,7 +1229,8 @@ export const DEFAULT_ROUTING_CONFIG: RoutingConfig = {
         "anthropic/claude-opus-4.7", // Flagship Opus — in-family hot swap
         "anthropic/claude-opus-4.6", // 2,139ms
         "xai/grok-4-0709", // 1,348ms — strong tool use, independent infra
-        "moonshot/kimi-k2.5", // strong tool use, independent infra
+        "moonshot/kimi-k2.7", // Moonshot flagship — strong tool use, independent infra
+        "moonshot/kimi-k2.5", // cost-stability backstop
         "openai/gpt-5.5", // Newest flagship — native agent + computer use (exactly the agentic-tier use case)
         "openai/gpt-5.4", // Previous flagship — 6,213ms, reliable
         "deepseek/deepseek-chat", // 1,431ms — cheap, reliable

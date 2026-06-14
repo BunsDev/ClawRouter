@@ -7,11 +7,11 @@
 <p>Agents can't sign up for accounts. Agents can't enter credit cards.<br>
 Agents can only sign transactions.<br><br>
 <strong>ClawRouter is the only LLM router that lets agents operate independently.</strong><br><br>
-<em>6 models free, no crypto required. No signup. No API key. No credit card.</em></p>
+<em>7 models free, no crypto required. No signup. No API key. No credit card.</em></p>
 
 <br>
 
-<img src="https://img.shields.io/badge/🆓_6_Free_Models-success?style=for-the-badge" alt="6 free models">&nbsp;
+<img src="https://img.shields.io/badge/🆓_7_Free_Models-success?style=for-the-badge" alt="7 free models">&nbsp;
 <img src="https://img.shields.io/badge/🤖_Agent--Native-black?style=for-the-badge" alt="Agent native">&nbsp;
 <img src="https://img.shields.io/badge/🔑_Zero_API_Keys-blue?style=for-the-badge" alt="No API keys">&nbsp;
 <img src="https://img.shields.io/badge/⚡_Local_Routing-yellow?style=for-the-badge" alt="Local routing">&nbsp;
@@ -46,7 +46,7 @@ Every other LLM router was built for **human developers** — create an account,
 
 ClawRouter is built for the agent-first world:
 
-- **Starts at $0** — 6 NVIDIA models are free forever (incl. 1M-context DeepSeek V4 Flash + a vision-capable Nemotron Omni)
+- **Starts at $0** — 7 NVIDIA models are free forever (incl. 675B Mistral Large 3, Qwen3.5 122B + a vision-capable Nemotron Omni)
 - **No accounts** — a wallet is generated locally, no signup
 - **No API keys** — your wallet signature IS authentication
 - **No model selection** — 15-dimension scoring picks the right model automatically
@@ -62,7 +62,7 @@ This is the stack that lets agents operate autonomously: **x402 + USDC + local r
 |                  | OpenRouter        | LiteLLM          | Martian           | Portkey           | **ClawRouter**          |
 | ---------------- | ----------------- | ---------------- | ----------------- | ----------------- | ----------------------- |
 | **Models**       | 200+              | 100+             | Smart routing     | Gateway           | **55+**                 |
-| **Free tier**    | Rate-limited      | BYO keys         | No                | No                | **6 models, no signup** |
+| **Free tier**    | Rate-limited      | BYO keys         | No                | No                | **7 models, no signup** |
 | **Routing**      | Manual selection  | Manual selection | Smart (closed)    | Observability     | **Smart (open source)** |
 | **Auth**         | Account + API key | Your API keys    | Account + API key | Account + API key | **Wallet signature**    |
 | **Payment**      | Credit card       | BYO keys         | Credit card       | $49-499/mo        | **USDC per-request**    |
@@ -78,7 +78,7 @@ This is the stack that lets agents operate autonomously: **x402 + USDC + local r
 
 ## Quick Start
 
-> **No wallet? 6 models work free out of the box.** Install, run, and pin `nvidia/gpt-oss-120b` (or any of the 6) — no crypto, no signup, no balance required. Add USDC later when you want paid models.
+> **No wallet? 7 models work free out of the box.** Install, run, and pin `nvidia/gpt-oss-120b` (or any of the 7) — no crypto, no signup, no balance required. Add USDC later when you want paid models.
 
 ### Option A — OpenClaw Agent
 
@@ -118,7 +118,7 @@ npx @blockrun/clawrouter
 ```
 
 **2. Fund your wallet** — optional, skip for free tier
-Your wallet address is printed on first run. For paid models, send a few USDC on Base or Solana — $5 covers thousands of requests. To stay at $0, pin any of the 6 free models (e.g. `nvidia/gpt-oss-120b`) or use `/model free` inside OpenClaw.
+Your wallet address is printed on first run. For paid models, send a few USDC on Base or Solana — $5 covers thousands of requests. To stay at $0, pin any of the 7 free models (e.g. `nvidia/gpt-oss-120b`) or use `/model free` inside OpenClaw.
 
 **3. Point your client at `http://localhost:8402`**
 
